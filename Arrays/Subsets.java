@@ -23,3 +23,23 @@ class Solution {
         }
     }
 }
+
+class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        var result = new ArrayList<List<Integer>>();
+        
+        for (var i = 0; i < Math.pow(2, nums.length); ++i) {
+            var subset = new ArrayList<Integer>();
+            
+            for (var j = 0; j < nums.length; ++j) {
+                if ((i >> (nums.length - 1 - j) & 1) == 1) {
+                    subset.add(nums[j]);
+                }
+            }
+            
+            result.add(subset);
+        }
+        
+        return result;
+    }
+}
