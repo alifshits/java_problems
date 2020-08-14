@@ -1,18 +1,17 @@
 class Solution {
     public int longestPalindrome(String s) {
         var len = 0;
-        var map = new HashMap<Character, Integer>();
+        var map = new int[64];
         for (var i = 0; i < s.length(); ++i) {
             var c = s.charAt(i);
-            var cnt = map.getOrDefault(c, 0);
-            map.put(c, cnt + 1);
+            map[c - 'A'] += 1;
         }
         
         var hasOdd = false;
         
-        for (var cnt : map.values()) {            
-            len += cnt;
-            if ((cnt & 1) == 1) {
+        for (var i = 0; i < map.length; ++i) {            
+            len += map[i];
+            if ((map[i] & 1) == 1) {
                 hasOdd = true;
                 --len;
             }
