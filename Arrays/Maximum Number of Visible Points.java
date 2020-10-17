@@ -28,18 +28,10 @@ class Solution {
 
         var cnt = 0;
 
-        for (var a : angles) {
-            var lo = a;
-            var hi = a + angle;
+        for (var i = 0; i < angles.size(); ++i) {
+            var hi = angles.get(i) + angle;
 
             var cntTmp = 0;
-
-            if (lo < 0) {
-                var loTmp = 360 + lo;
-                var hiTmp = 360;
-                cntTmp += getCount(angles, loTmp, hiTmp);
-                lo = 0.0;
-            }
 
             if (hi >= 360) {
                 var loTmp = 0;
@@ -48,7 +40,7 @@ class Solution {
                 hi = 360;
             }
 
-            cntTmp += getCount(angles, lo, hi);
+            cntTmp += getCount(angles, i, hi);
 
             cnt = Math.max(cnt, cntTmp);
         }
@@ -106,5 +98,20 @@ class Solution {
         }
 
         return idxHi - idxLo + (idxLoFound && idxHiFound ? 1 : 0);
+    }
+    
+    private static int getCount(ArrayList<Double> angles, int idxLo, double hi) {
+        var idxHi = Collections.binarySearch(angles, hi);
+        var idxHiFound = true;
+        if (idxHi < 0) {
+            idxHi = -1 * (idxHi + 1);
+            idxHiFound = false;
+        }
+
+        while (idxHi + 1 < angles.size() && angles.get(idxHi + 1) == hi) {
+            ++idxHi;
+        }
+
+        return idxHi - idxLo + (idxHiFound ? 1 : 0);
     }
 }
